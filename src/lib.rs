@@ -83,10 +83,13 @@ pub async fn connect_to_wireguard(
 
         match pinged {
             Ok(_pinged) => {
+                println!("VPN: OK");
                 return Ok(());
             }
             Err(e) => {
                 disconnect_from_wireguard();
+                println!("VPN: OFF");
+
                 println!("Error: {:?}", e);
             }
         }
@@ -150,8 +153,8 @@ pub async fn connect_to_wireguard(
     #[cfg(windows)]
     wgapi.configure_interface(&interface_config, &[])?;
     wgapi.configure_peer_routing(&interface_config.peers)?;
-    eprintln!("Interface created");
 
+    println!("VPN: ON");
     Ok(())
 }
 
