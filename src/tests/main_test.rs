@@ -11,7 +11,7 @@ mod tests {
         let client_private_key = "0PPBFCQ+p2OwJBPbw+OrYecb6pKp4DqIDT0GP4EIsF4=".to_string();
         let client_address = "10.33.0.33".to_string();
         let client_port = Some(12345);
-        let client_addresses_maks = Some(vec!["10.33.0.0/16".to_string()]);
+        let client_addresses_masks = Some(vec!["10.33.0.0/16".to_string()]);
         let network_prefix = 16;
 
         let result = connect_to_wireguard(
@@ -20,7 +20,7 @@ mod tests {
             client_private_key,
             client_address,
             client_port,
-            client_addresses_maks,
+            client_addresses_masks,
             network_prefix,
         )
         .await;

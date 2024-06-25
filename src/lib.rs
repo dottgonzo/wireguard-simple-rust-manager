@@ -52,7 +52,7 @@ pub async fn connect_to_wireguard(
     client_private_key: String,
     client_address: String,
     client_port: Option<u32>,
-    client_addresses_maks: Option<Vec<String>>,
+    client_addresses_masks: Option<Vec<String>>,
     network_prefix: u8,
 ) -> Result<(), Box<dyn std::error::Error>> {
     // Create new API object for interface
@@ -111,8 +111,8 @@ pub async fn connect_to_wireguard(
 
     // Allowed IPs
 
-    if let Some(client_addresses_maks) = client_addresses_maks {
-        for addr in client_addresses_maks {
+    if let Some(client_addresses_masks) = client_addresses_masks {
+        for addr in client_addresses_masks {
             // peer.allowed_ips.push(IpAddrMask::from_str("10.6.0.0/24")?);
 
             peer.allowed_ips.push(IpAddrMask::from_str(&addr)?);
@@ -164,7 +164,7 @@ pub async fn routine_connect_to_wireguard(
     client_private_key: String,
     client_address: String,
     client_port: Option<u32>,
-    client_addresses_maks: Option<Vec<String>>,
+    client_addresses_masks: Option<Vec<String>>,
     network_prefix: u8,
 ) -> Result<(), Box<dyn std::error::Error>> {
     loop {
@@ -174,7 +174,7 @@ pub async fn routine_connect_to_wireguard(
             client_private_key.clone(),
             client_address.clone(),
             client_port,
-            client_addresses_maks.clone(),
+            client_addresses_masks.clone(),
             network_prefix,
         )
         .await;
