@@ -139,17 +139,17 @@ pub async fn routine_connect_to_wireguard(
     client_addresses_maks: Option<Vec<String>>,
     network_prefix: u8,
 ) -> Result<(), Box<dyn std::error::Error>> {
-    let connect = connect_to_wireguard(
-        server_endpoint,
-        server_public_key,
-        client_private_key,
-        client_address,
-        client_port,
-        client_addresses_maks,
-        network_prefix,
-    )
-    .await;
     loop {
+        let connect = connect_to_wireguard(
+            server_endpoint,
+            server_public_key.clone(),
+            client_private_key.clone(),
+            client_address.clone(),
+            client_port,
+            client_addresses_maks.clone(),
+            network_prefix,
+        )
+        .await;
         if let Err(e) = connect {
             eprintln!("Error: {:?}", e);
             break;
