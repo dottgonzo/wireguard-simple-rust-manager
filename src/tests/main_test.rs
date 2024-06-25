@@ -12,6 +12,7 @@ mod tests {
         let client_address = "10.33.0.33".to_string();
         let client_port = Some(12345);
         let client_addresses_maks = Some(vec!["10.33.0.0/16".to_string()]);
+        let network_prefix = 16;
 
         let result = connect_to_wireguard(
             server_endpoint,
@@ -20,6 +21,7 @@ mod tests {
             client_address,
             client_port,
             client_addresses_maks,
+            network_prefix,
         )
         .await;
 

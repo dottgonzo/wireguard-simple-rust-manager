@@ -29,6 +29,7 @@ pub async fn connect_to_wireguard(
     client_address: String,
     client_port: Option<u32>,
     client_addresses_maks: Option<Vec<String>>,
+    network_prefix: u8,
 ) -> Result<(), Box<dyn std::error::Error>> {
     // Create new API object for interface
 
@@ -45,14 +46,13 @@ pub async fn connect_to_wireguard(
     // Check if the interface is just created
 
     let wire_data = wgapi.read_interface_data();
+    let ip: Ipv4Addr = client_address.parse().expect("Invalid IP address");
+    let network_prefix = 16;
 
+    let network_address = get_network_address(ip, network_prefix);
     if wire_data.is_ok() {
         // Interface already exists
 
-        let ip: Ipv4Addr = client_address.parse().expect("Invalid IP address");
-        let network_prefix = 16;
-
-        let network_address = get_network_address(ip, network_prefix);
         let first_ip = get_first_ip(network_address);
         let ip_ping: IpAddr = IpAddr::V4(first_ip);
 
@@ -90,6 +90,16 @@ pub async fn connect_to_wireguard(
 
             peer.allowed_ips.push(IpAddrMask::from_str(&addr)?);
         }
+    } else {
+        peer.allowed_ips.push(
+            IpAddrMask::from_str(
+                (network_address.to_string().as_str().to_owned()
+                    + "/"
+                    + network_prefix.to_string().as_str())
+                .as_str(),
+            )
+            .unwrap(),
+        );
     }
 
     let mut default_client_port: u32 = 12345;
@@ -128,6 +138,7 @@ pub async fn routine_connect_to_wireguard(
     client_address: String,
     client_port: Option<u32>,
     client_addresses_maks: Option<Vec<String>>,
+    network_prefix: u8,
 ) -> Result<(), Box<dyn std::error::Error>> {
     let connect = connect_to_wireguard(
         server_endpoint,
@@ -136,6 +147,7 @@ pub async fn routine_connect_to_wireguard(
         client_address,
         client_port,
         client_addresses_maks,
+        network_prefix,
     )
     .await;
     loop {
