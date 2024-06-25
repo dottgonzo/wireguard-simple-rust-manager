@@ -87,10 +87,9 @@ pub async fn connect_to_wireguard(
                 return Ok(());
             }
             Err(e) => {
-                disconnect_from_wireguard();
-                println!("VPN: OFF");
-
                 println!("Error: {:?}", e);
+                println!("VPN: OFF");
+                disconnect_from_wireguard();
             }
         }
 
@@ -182,7 +181,7 @@ pub async fn routine_connect_to_wireguard(
             eprintln!("Error: {:?}", e);
             break;
         }
-        std::thread::sleep(time::Duration::from_secs(5));
+        std::thread::sleep(time::Duration::from_secs(60));
     }
     Ok(())
 }
