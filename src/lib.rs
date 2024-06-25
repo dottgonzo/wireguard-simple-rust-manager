@@ -181,7 +181,7 @@ pub async fn routine_connect_to_wireguard(
             eprintln!("Error: {:?}", e);
             break;
         }
-        std::thread::sleep(time::Duration::from_secs(60));
+        std::thread::sleep(time::Duration::from_secs(30));
     }
     Ok(())
 }
