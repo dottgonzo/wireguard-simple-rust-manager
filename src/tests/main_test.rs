@@ -6,7 +6,7 @@ mod tests {
 
     #[tokio::test]
     async fn test_connection() {
-        let server_endpoint: SocketAddr = "65.108.151.236:51820".parse().unwrap();
+        let server_endpoint: SocketAddr = "192.0.0.1:51820".parse().unwrap();
         let server_public_key = "N9ZPcCtSJJQIp/GtfD5+EAiNQlyABe06GPEaibKtmws=".to_string();
         let client_private_key = "0PPBFCQ+p2OwJBPbw+OrYecb6pKp4DqIDT0GP4EIsF4=".to_string();
         let client_address = "10.33.0.33".to_string();
