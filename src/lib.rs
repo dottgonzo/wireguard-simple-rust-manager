@@ -47,7 +47,6 @@ pub async fn connect_to_wireguard(
 
     let wire_data = wgapi.read_interface_data();
     let ip: Ipv4Addr = client_address.parse().expect("Invalid IP address");
-    let network_prefix = 16;
 
     let network_address = get_network_address(ip, network_prefix);
     if wire_data.is_ok() {
