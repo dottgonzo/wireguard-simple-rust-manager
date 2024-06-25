@@ -22,6 +22,30 @@ fn get_first_ip(network_address: Ipv4Addr) -> Ipv4Addr {
     Ipv4Addr::from(ip_u32 + 1)
 }
 
+pub fn disconnect_from_wireguard() {
+    let ifname: String = if cfg!(target_os = "linux") || cfg!(target_os = "freebsd") {
+        "wg0".into()
+    } else {
+        "utun3".into()
+    };
+
+    // Create new API object for interface
+
+    let wgapi = WGApi::new(ifname.clone(), false).unwrap();
+
+    // Check if the interface is just created
+
+    let wire_data = wgapi.read_interface_data();
+    if wire_data.is_ok() {
+        // Interface already exists
+        let del = wgapi.remove_interface();
+
+        if del.is_ok() {
+            println!("Interface deleted");
+        }
+    }
+}
+
 pub async fn connect_to_wireguard(
     server_endpoint: SocketAddr,
     server_public_key: String,
@@ -62,6 +86,7 @@ pub async fn connect_to_wireguard(
                 return Ok(());
             }
             Err(e) => {
+                disconnect_from_wireguard();
                 println!("Error: {:?}", e);
             }
         }

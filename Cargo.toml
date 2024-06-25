@@ -1,6 +1,6 @@
 [package]
 name = "wireguard_simple_rust_manager"
-version = "0.0.3"
+version = "0.0.4"
 edition = "2021"
 authors = ["Dario Caruso"]
 description = "simple crate for wireguard connection"
