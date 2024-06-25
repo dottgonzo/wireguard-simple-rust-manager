@@ -1,6 +1,6 @@
 [package]
 name = "wireguard_simple_rust_manager"
-version = "0.0.4"
+version = "0.0.5"
 edition = "2021"
 authors = ["Dario Caruso"]
 description = "simple crate for wireguard connection"
@@ -13,7 +13,7 @@ repository = "https://github.com/dottgonzo/wireguard-simple-rust-manager"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-rust-simple-ping = { version = "0.0.1" }
+rust-simple-ping = { version = "0.0.2" }
 defguard_wireguard_rs = { version = "0.4.2" }
 
 [dev-dependencies]
