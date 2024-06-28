@@ -83,8 +83,21 @@ pub async fn connect_to_wireguard(
 
         match pinged {
             Ok(_pinged) => {
-                println!("VPN: OK");
-                return Ok(());
+                let vpn_host = wire_data.unwrap();
+
+                let first_peer = vpn_host.clone().peers.into_keys().next().unwrap();
+
+                let peer_endpoint = vpn_host.peers.get(&first_peer).unwrap().endpoint.unwrap();
+
+                if peer_endpoint != server_endpoint {
+                    println!("wire_data: {:?}", vpn_host);
+
+                    println!("Endpoint changed, reconnecting");
+                    disconnect_from_wireguard();
+                } else {
+                    println!("VPN: OK");
+                    return Ok(());
+                }
             }
             Err(e) => {
                 println!("Error: {:?}", e);
